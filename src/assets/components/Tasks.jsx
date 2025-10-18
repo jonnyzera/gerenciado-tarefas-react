@@ -1,8 +1,14 @@
 import { ChevronRightIcon, TrashIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function Talks({ tasks, onTaskClick, onTaskDelete }) {
+  const navigate = useNavigate();
+
+  function onSeeDetailsClick(task) {
+    navigate(`/task?title=${task.title}&description=${task.description}`);
+  }
   return (
-    <ul className="space-y-4 rounded-md bg-slate-200 p-6 shadow">
+    <ul className="p-6 space-y-4 rounded-md shadow bg-slate-200">
       {tasks.map((task) => (
         <li key={task.id} className="flex items-center gap-2">
           <button
@@ -14,14 +20,15 @@ function Talks({ tasks, onTaskClick, onTaskDelete }) {
             {task.title}
           </button>
           <button
-            className="rounded-md bg-slate-400 p-2 text-white transition hover:bg-slate-500"
+            onClick={() => onSeeDetailsClick(task)}
+            className="p-2 text-white transition rounded-md bg-slate-400 hover:bg-slate-500"
             aria-label={`Ver detalhes da tarefa ${task.title}`}
           >
             <ChevronRightIcon />
           </button>
           <button
             onClick={() => onTaskDelete(task.id)}
-            className="rounded-md bg-slate-400 p-2 text-white transition hover:bg-slate-500"
+            className="p-2 text-white transition rounded-md bg-slate-400 hover:bg-slate-500"
             aria-label={`Ver detalhes da tarefa ${task.title}`}
           >
             <TrashIcon />

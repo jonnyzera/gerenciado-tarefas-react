@@ -1,7 +1,7 @@
-import { UserSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 function TaskPage() {
-  const [searchParams] = UserSearchParams();
+  const [searchParams] = useSearchParams();
   const title = searchParams.get("title");
   const description = searchParams.get("description");
 
