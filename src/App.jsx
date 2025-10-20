@@ -1,36 +1,37 @@
-import { useState } from "react";
-import Talks from "./assets/components/Tasks.jsx";
+import { useEffect, useState } from "react";
+import Tasks from "./assets/components/Tasks.jsx";
 import AddTask from "./assets/components/AddTask.jsx";
 import { v4 } from "uuid";
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Estudando React",
-      description:
-        "Estudar React, TailwindCSS e NodeJS para me tornar um desenvolvedor front-end",
-      isCompleted: false,
-    },
-    {
-      id: 2,
-      title: "Estudando Java",
-      description:
-        "Estudar Java, Spring Boot, Valitadion, Hibernate, JPA, Security, Sprig Web e Testes para me tornar um desenvolvedor back-end",
-      isCompleted: false,
-    },
-    {
-      id: 3,
-      title: "Estudando Docker",
-      description:
-        "Estudar Docker, Kubernetes, AWS, Azure e Google Cloud para me tornar um desenvolvedor DevOps",
-      isCompleted: false,
-    },
-  ]);
+  const [tasks, setTasks] = useState(
+    JSON.parse(localStorage.getItem("tasks")) || [],
+  );
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/todos?_limit=10",
+        {
+          method: "GET",
+        },
+      );
+      const data = await response.json();
+      setTasks(data);
+    };
+
+    if (tasks.length === 0) {
+      fetchTasks();
+    }
+  });
 
   function onTaskClick(taskId) {
     const newTasks = tasks.map((task) => {
-      // Atualizar ess Tarefa
+      // Atualizar essa Tarefa
       if (task.id === taskId) {
         return { ...task, isCompleted: !task.isCompleted };
       }
@@ -62,7 +63,7 @@ function App() {
           Gerenciador de Tarefas
         </h1>
         <AddTask onAddTaskSubimit={onAddTaskSubimit} />
-        <Talks
+        <Tasks
           tasks={tasks}
           onTaskClick={onTaskClick}
           onTaskDelete={onTaskDelete}
