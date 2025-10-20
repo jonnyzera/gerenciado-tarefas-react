@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import Tasks from "./assets/components/Tasks.jsx";
-import AddTask from "./assets/components/AddTask.jsx";
+import AddTask from "./components/AddTask";
+import Tasks from "./components/Tasks";
 import { v4 } from "uuid";
+import Title from "./components/Title";
 
 function App() {
   const [tasks, setTasks] = useState(
@@ -23,30 +24,29 @@ function App() {
       const data = await response.json();
       setTasks(data);
     };
-
-    if (tasks.length === 0) {
-      fetchTasks();
-    }
-  });
+    // SE QUISER, VOCÊ PODE CHAMAR UMA API PARA PEGAR AS TAREFAS
+    // fetchTasks();
+  }, []);
 
   function onTaskClick(taskId) {
     const newTasks = tasks.map((task) => {
-      // Atualizar essa Tarefa
+      // PRECISO ATUALIZAR ESSA TAREFA
       if (task.id === taskId) {
         return { ...task, isCompleted: !task.isCompleted };
       }
-      // Não preciso atualizar essa tarefa
+
+      // NÃO PRECISO ATUALIZAR ESSA TAREFA
       return task;
     });
     setTasks(newTasks);
   }
 
-  function onTaskDelete(taskId) {
+  function onDeleteTaskClick(taskId) {
     const newTasks = tasks.filter((task) => task.id !== taskId);
     setTasks(newTasks);
   }
 
-  function onAddTaskSubimit(title, description) {
+  function onAddTaskSubmit(title, description) {
     const newTask = {
       id: v4(),
       title,
@@ -59,14 +59,12 @@ function App() {
   return (
     <div className="flex justify-center w-screen h-screen p-6 bg-slate-500">
       <div className="w-[500px] space-y-4">
-        <h1 className="text-3xl font-bold text-center text-slate-100">
-          Gerenciador de Tarefas
-        </h1>
-        <AddTask onAddTaskSubimit={onAddTaskSubimit} />
+        <Title>Gerenciador de Tarefas</Title>
+        <AddTask onAddTaskSubmit={onAddTaskSubmit} />
         <Tasks
           tasks={tasks}
           onTaskClick={onTaskClick}
-          onTaskDelete={onTaskDelete}
+          onDeleteTaskClick={onDeleteTaskClick}
         />
       </div>
     </div>

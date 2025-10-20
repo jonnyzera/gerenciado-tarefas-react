@@ -1,7 +1,7 @@
 function Input(props) {
   return (
     <input
-      className="p-2 text-white transition rounded-md bg-slate-400 hover:bg-slate-500"
+      className="px-4 py-2 border rounded-md border-slate-300 outline-slate-400"
       {...props}
     />
   );

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Input from "./Input.jsx";
+import Input from "./Input";
 
-function AddTask({ onAddTaskSubimit }) {
+function AddTask({ onAddTaskSubmit }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -22,17 +22,15 @@ function AddTask({ onAddTaskSubimit }) {
       />
       <button
         onClick={() => {
-          // Verificar se o título e a descrição não estão vazios
+          // verificar se o título e a descrição estão preenchidos
           if (!title.trim() || !description.trim()) {
-            return alert(
-              "Por favor, preencha o título e a descrição da tarefa.",
-            );
+            return alert("Preencha o título e a descrição da tarefa.");
           }
+          onAddTaskSubmit(title, description);
           setTitle("");
           setDescription("");
-          onAddTaskSubimit(title, description);
         }}
-        className="px-4 py-2 font-medium text-white border rounded-md bg-slate-500"
+        className="px-4 py-2 font-medium text-white rounded-md bg-slate-500"
       >
         Adicionar
       </button>
