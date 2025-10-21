@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
-import AddTask from "./components/AddTask";
-import Tasks from "./components/Tasks";
-import { v4 } from "uuid";
-import Title from "./components/Title";
+import { useEffect, useState } from 'react';
+import AddTask from './components/AddTask';
+import Tasks from './components/Tasks';
+import { v4 } from 'uuid';
+import Title from './components/Title';
 
 function App() {
   const [tasks, setTasks] = useState(
-    JSON.parse(localStorage.getItem("tasks")) || [],
+    JSON.parse(localStorage.getItem('tasks')) || []
   );
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
   useEffect(() => {
     const fetchTasks = async () => {
       const response = await fetch(
-        "https://jsonplaceholder.typicode.com/todos?_limit=10",
+        'https://jsonplaceholder.typicode.com/todos?_limit=10',
         {
-          method: "GET",
-        },
+          method: 'GET',
+        }
       );
       const data = await response.json();
       setTasks(data);
@@ -57,7 +57,7 @@ function App() {
   }
 
   return (
-    <div className="flex justify-center w-screen h-screen p-6 bg-slate-500">
+    <div className="flex justify-center w-screen h-screen p-6 bg-gray-900">
       <div className="w-[500px] space-y-4">
         <Title>Gerenciador de Tarefas</Title>
         <AddTask onAddTaskSubmit={onAddTaskSubmit} />
